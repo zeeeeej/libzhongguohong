@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,7 +10,7 @@ plugins {
 }
 
 group = "io.github.zeeeeej"
-version = "0.0.2"
+version = "0.0.3"
 
 
 kotlin {
@@ -27,6 +28,10 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     linuxX64()
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs()
+    js()
 
     sourceSets {
         val commonMain by getting {
@@ -55,7 +60,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
 
-    coordinates("io.github.zeeeeej", "zhongguohong", "0.0.2")
+    coordinates("io.github.zeeeeej", "zhongguohong", "0.0.3")
 
     pom {
         name.set("zhongguohong")
