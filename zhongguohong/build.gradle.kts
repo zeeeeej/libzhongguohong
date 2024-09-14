@@ -1,5 +1,6 @@
 import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,7 +11,7 @@ plugins {
 }
 
 group = "io.github.zeeeeej"
-version = "0.0.3"
+version = "0.0.4"
 
 
 kotlin {
@@ -30,8 +31,22 @@ kotlin {
     linuxX64()
 
     @OptIn(ExperimentalWasmDsl::class)
-    wasmJs()
-    js()
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            val projectDirPath = project.projectDir.path
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(projectDirPath)
+                    }
+                }
+            }
+        }
+        binaries.executable()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -60,7 +75,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
 
-    coordinates("io.github.zeeeeej", "zhongguohong", "0.0.3")
+    coordinates("io.github.zeeeeej", "zhongguohong", "0.0.4")
 
     pom {
         name.set("zhongguohong")
