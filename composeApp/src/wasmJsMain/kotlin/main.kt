@@ -1,10 +1,8 @@
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.ComposeViewport
-import kotlinmultiplatformsample.composeapp.generated.resources.Res
-import kotlinmultiplatformsample.composeapp.generated.resources.app_name
 import kotlinx.browser.document
-import kotlinx.coroutines.Dispatchers
+import libzhongguohong.composeapp.generated.resources.Res
+import libzhongguohong.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.getString
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -17,7 +15,3 @@ suspend fun main() {
         App()
     }
 }
-
-
-actual val MyColor:Long
-    get() = 0xff345678

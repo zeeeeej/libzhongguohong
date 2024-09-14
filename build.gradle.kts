@@ -16,7 +16,10 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
+val done = true
+
 task("parseZhongGuoSeFromFile") {
+    if (done) return@task
     println("parse start...")
     val chinese = "石板灰".isChinese()
     println("chinese=$chinese")
@@ -68,9 +71,11 @@ task("parseZhongGuoSeFromFile") {
                     }
                 }
 
-                is ParsedResult.Error -> {
+                ParsedResult.Error -> {
                     println("   parse error")
                 }
+
+//                else ->{}
             }
         }
     }
@@ -78,7 +83,7 @@ task("parseZhongGuoSeFromFile") {
     println("#### 解析完毕，一共${colors.size}个 ####")
     if (colors.isNotEmpty()) {
         println("开始写入数据")
-        colors.write(bufferedWriter)
+        colors.writeZhongGuoSe(bufferedWriter)
         println("写入完毕")
     }
 }
@@ -120,11 +125,49 @@ fun String.isChinese(): Boolean {
     return this.any(::isChinese)
 }
 
+fun List<ZhongGuoColor>.writeZhongGuoSe(writer: BufferedWriter) {
+    try {
+        writer.write(
+            """
+            |/*
+            | * 中国色（一共${this.size}种颜色）
+            | */
+            |enum class 中国色 (val text : String,val pinyin : String,val value : Long) {
+            |
+        """.trimMargin()
+        )
+
+        this.forEach {
+            it.writeZhongGuoSe(writer)
+        }
+
+        writer.write(
+            """
+            |;
+            |}
+            
+        """.trimMargin()
+        )
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+        writer.flush()
+    }
+}
+
 fun List<ZhongGuoColor>.write(writer: BufferedWriter) {
     try {
         this.forEach {
-            it.write(writer)
+            it.write(writer, this)
         }
+        writer.write(
+            """
+            | val ZhongGuoSe :List<Long> = listOf(
+            | ${this.joinToString(",") { it.varName }}
+            | )
+        """
+                .trimMargin()
+        )
     } catch (e: Exception) {
         e.printStackTrace()
     } finally {
@@ -137,7 +180,7 @@ val ZhongGuoColor.varName: String
     //    get()  ="`${this.pinyin.lowercase(Locale.getDefault())}${this.name}`"
     get() = "`${this.name}`"
 
-fun ZhongGuoColor.write(writer: BufferedWriter) {
+fun ZhongGuoColor.write(writer: BufferedWriter, all: List<ZhongGuoColor>) {
     val text = """
         |/*
         | * 《中国色》 
@@ -147,6 +190,27 @@ fun ZhongGuoColor.write(writer: BufferedWriter) {
         |
     """.trimMargin()
     writer.write(text)
+
+}
+
+infix fun List<ZhongGuoColor>.hasSamePinYin(color: ZhongGuoColor): Boolean {
+    return this.any {
+        it.pinyin == color.pinyin
+    }
+}
+
+fun ZhongGuoColor.writeZhongGuoSe(writer: BufferedWriter) {
+    val textStr = this.name
+    val pinyinStr = this.pinyin.lowercase(Locale.getDefault())
+    val valueStr = "0x${this.value.toHexString()}"
+
+
+    val line = """
+        |   /* ${textStr}(${pinyinStr}) */
+        |   ${textStr}("$textStr","$pinyinStr",$valueStr),
+        |
+    """.trimMargin()
+    writer.write(line)
 
 }
 

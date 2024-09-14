@@ -68,7 +68,8 @@ kotlin {
             implementation(compose.components.resources) // SEE https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
-            implementation("io.github.zeeeeej:zhongguohong:0.0.3")
+//            implementation("io.github.zeeeeej:zhongguohong:0.0.3")
+            implementation(project(":zhongguohong"))
 
 
         }
