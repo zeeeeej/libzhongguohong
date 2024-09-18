@@ -1,4 +1,6 @@
-/*
+// Auto generate. DO NOT MODIFY!
+
+/**
  * 中国色（一共526种颜色）
  */
 enum class 中国色 (val text : String,val pinyin : String,val value : Long) {

@@ -36,3 +36,4 @@ dependencyResolutionManagement {
 include(":composeApp")
 include(":shared")
 include(":zhongguohong")
+include(":zhongguohong-compose")

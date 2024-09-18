@@ -16,7 +16,7 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-val done = false
+val done = true
 
 task("parseZhongGuoSeFromFile") {
     if (done) return@task
@@ -24,9 +24,9 @@ task("parseZhongGuoSeFromFile") {
     val chinese = "石板灰".isChinese()
     println("chinese=$chinese")
     val sourcePath = project.rootDir.absolutePath + "/colors/Colors.txt"
-//    val destPath = project.rootDir.absolutePath + "/colors/ZhongGuoSe.kt"
+//    val destPath = project.rootDir.absolutePath + "/colors/ZhongGuoSes.kt"
     val destPath =
-        project.rootDir.absolutePath + "/zhongguohong/src/commonMain/kotlin/com/zeeeeej/zhongguohong/color/ZhongGuoSe.kt"
+        project.rootDir.absolutePath + "/zhongguohong/src/commonMain/kotlin/com/zeeeeej/zhongguohong/color/ZhongGuoSes.kt"
     println("解析文本路径：$sourcePath")
     println("写入文本路径：$destPath")
     val file = File(sourcePath)
@@ -44,13 +44,13 @@ task("parseZhongGuoSeFromFile") {
 
             val result = parseToColor(line)
             println("->解析：$line 结果:$result")
-            when (result) {
-                is ParsedResult.Named -> {
+            @Suppress("")
+            when {
+                result is ParsedResult.Named -> {
                     println("   |解析名称：${result.name}")
                     name = result.name
                 }
-
-                is ParsedResult.Hexed -> {
+                result is ParsedResult.Hexed -> {
                     val tmp = name
 
                     if (tmp != null) {
@@ -63,19 +63,18 @@ task("parseZhongGuoSeFromFile") {
                         colors.add(
                             color
                         )
-//                        bufferedWriter.write(color.toString() + "\n")
+                        //                        bufferedWriter.write(color.toString() + "\n")
 
                         name = null
                     } else {
                         println("|名称无，构建失败")
                     }
                 }
-
-                ParsedResult.Error -> {
+                result == ParsedResult.Error -> {
                     println("   parse error")
                 }
 
-//                else ->{}
+                //                else ->{}
             }
         }
     }
@@ -129,7 +128,9 @@ fun List<ZhongGuoColor>.writeZhongGuoSe(writer: BufferedWriter) {
     try {
         writer.write(
             """
-            |/*
+            |// Auto generate. DO NOT MODIFY!
+            |
+            |/**
             | * 中国色（一共${this.size}种颜色）
             | */
             |enum class 中国色 (val text : String,val pinyin : String,val value : Long) {

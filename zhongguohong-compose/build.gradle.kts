@@ -8,6 +8,8 @@ plugins {
 //    id("module.publication")
 //    `maven-publish`
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 val appVersion = "1.0.2"
@@ -54,6 +56,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //put your multiplatform dependencies here
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.ui)
+                implementation(project(":zhongguohong"))
             }
         }
         val commonTest by getting {
@@ -77,11 +84,11 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
 
-    coordinates("io.github.zeeeeej", "zhongguohong", appVersion)
+    coordinates("io.github.zeeeeej", "zhongguohong-compose", appVersion)
 
     pom {
-        name.set("zhongguohong")
-        description.set("zhongguohong")
+        name.set("zhongguohong-compose")
+        description.set("zhongguohong-compose")
         inceptionYear.set("2024")
         url.set("https://github.com/zeeeeej/libzhongguohong")
         licenses {

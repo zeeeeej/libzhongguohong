@@ -1,6 +1,5 @@
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,8 +24,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,26 +32,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toIntRect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private object Defaults {
-    val Default_End_Color = Color.White
+    val Default_End_Color = Color.Black
     val ItemShape = RoundedCornerShape(12.dp)
     val ItemShape_RGB = RoundedCornerShape(4.dp)
     val ItemShape_Color = Color.White.copy(alpha = .1f)
@@ -149,12 +142,6 @@ private fun ZhongGuoSeList(
     }
 }
 
-val 中国色.color: Color
-    get() = Color(this.value)
-
-@OptIn(ExperimentalStdlibApi::class)
-val 中国色.colorInHex: String
-    get() = this.value.toInt().toHexString().uppercase()
 
 @Composable
 fun Current(color: 中国色, onClick: () -> Unit) {
@@ -180,7 +167,7 @@ fun Current(color: 中国色, onClick: () -> Unit) {
             )
             Spacer(Modifier.height(16.dp))
             Text(
-                "0x${color.colorInHex}", style = TextStyle.Default.copy(
+                "0x${color.hex}", style = TextStyle.Default.copy(
                     color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Light
                 )
             )
@@ -221,7 +208,7 @@ fun ZhongGuoseItem(item: 中国色, onClick: () -> Unit) {
         ColorCard(modifier = Modifier.fillMaxWidth().weight(1f).heightIn(24.dp), color = item.color)
         Spacer(Modifier.height(4.dp))
         Text(
-            item.colorInHex, style = TextStyle.Default.copy(
+            item.hex, style = TextStyle.Default.copy(
                 color = item.color, fontSize = 14.sp, fontWeight = FontWeight.Light
             ), modifier = Modifier.padding(start = 12.dp, bottom = 12.dp)
         )

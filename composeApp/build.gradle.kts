@@ -70,6 +70,7 @@ kotlin {
             implementation(projects.shared)
 //            implementation("io.github.zeeeeej:zhongguohong:0.0.3")
             implementation(project(":zhongguohong"))
+            implementation(project(":zhongguohong-compose"))
 
 
         }
