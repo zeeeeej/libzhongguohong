@@ -16,7 +16,7 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-val done = true
+val done = false
 
 task("parseZhongGuoSeFromFile") {
     if (done) return@task
@@ -141,13 +141,10 @@ fun List<ZhongGuoColor>.writeZhongGuoSe(writer: BufferedWriter) {
             it.writeZhongGuoSe(writer)
         }
 
-        writer.write(
-            """
-            |;
-            |}
-            
-        """.trimMargin()
-        )
+        writeExt(writer)
+
+        writeTypealias(writer, this)
+
     } catch (e: Exception) {
         e.printStackTrace()
     } finally {
@@ -215,3 +212,41 @@ fun ZhongGuoColor.writeZhongGuoSe(writer: BufferedWriter) {
 }
 
 
+fun writeExt(writer: BufferedWriter) {
+    writer.write(
+        """
+            |;
+            |}
+            |
+            |
+            |val zhongGuoSeList by lazy {
+            |    中国色.entries.toList()
+            |}
+            |
+            |typealias ZhongGuoSe = 中国色
+            |
+            |fun randomZhongGuoSe() = zhongGuoSeList.random()
+            |
+        """.trimMargin()
+    )
+}
+
+fun writeTypealias(writer: BufferedWriter, list: List<ZhongGuoColor>) {
+
+//    fun String.hasMore() = list.filter {
+//        it.pinyin == this
+//    }.size>1
+//
+//    list.forEach {
+//        val pinyin = it.pinyin
+//        val name = it.name
+//        val typealiasName = if (pinyin.hasMore()) "${pinyin}$name" else pinyin
+//        writer.write(
+//            """
+//            |typealias $typealiasName = 中国色.$name
+//        """.trimMargin()
+//        )
+//        writer.write("\n")
+//    }
+
+}

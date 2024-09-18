@@ -10,8 +10,10 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
+val appVersion = "1.0.1"
+
 group = "io.github.zeeeeej"
-version = "1.0.0"
+version = appVersion
 
 
 kotlin {
@@ -75,7 +77,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
 
-    coordinates("io.github.zeeeeej", "zhongguohong", "1.0.0")
+    coordinates("io.github.zeeeeej", "zhongguohong", appVersion)
 
     pom {
         name.set("zhongguohong")

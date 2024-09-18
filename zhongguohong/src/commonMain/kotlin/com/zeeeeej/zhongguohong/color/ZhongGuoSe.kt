@@ -1056,4 +1056,12 @@ enum class 中国色 (val text : String,val pinyin : String,val value : Long) {
    貂紫("貂紫","diaozi",0xff5d3131),
 ;
 }
-            
+
+
+val zhongGuoSeList by lazy {
+    中国色.entries.toList()
+}
+
+typealias ZhongGuoSe = 中国色
+
+fun randomZhongGuoSe() = zhongGuoSeList.random()
