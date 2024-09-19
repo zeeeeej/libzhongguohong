@@ -51,8 +51,8 @@ private object Defaults {
     val ItemShape = RoundedCornerShape(12.dp)
     val ItemShape_RGB = RoundedCornerShape(4.dp)
     val ItemShape_Color = Color.White.copy(alpha = .1f)
-    const val START_ANIMATE_DURATION_MILLIS = 2000
-    const val END_ANIMATE_DURATION_MILLIS = 3000
+    const val START_ANIMATE_DURATION_MILLIS = 1000
+    const val END_ANIMATE_DURATION_MILLIS = 2000
 }
 
 
@@ -102,18 +102,22 @@ fun ZhongGuoHong(modifier: Modifier = Modifier) {
     )
     {
 
-        Current(current) {
-            location(coroutineScope)
-        }
-
         LaunchedEffect(Unit) {
             current = randomZhongGuoSe()
             endBG = Defaults.Default_End_Color
         }
 
-        ZhongGuoSeList(gridState, list) {
-            current = it
-            endBG = Defaults.Default_End_Color
+        Box(Modifier.weight(2f)) {
+            Current(current) {
+                location(coroutineScope)
+            }
+        }
+
+        Box(Modifier.weight(3f)) {
+            ZhongGuoSeList(gridState, list) {
+                current = it
+                endBG = Defaults.Default_End_Color
+            }
         }
     }
 }
@@ -146,16 +150,16 @@ private fun ZhongGuoSeList(
 @Composable
 fun Current(color: 中国色, onClick: () -> Unit) {
 
-    Box(Modifier.fillMaxWidth().aspectRatio(1f)
-        .clip(CircleShape), contentAlignment = Alignment.Center) {
+    Box(
+        Modifier.fillMaxSize()
+            .clip(CircleShape), contentAlignment = Alignment.Center
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
                     .clickable { onClick() }
-                    .padding(4.dp)
-
-                ,
+                    .padding(4.dp),
                 text = color.text, style = TextStyle.Default.copy(
                     color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.ExtraBold
                 )

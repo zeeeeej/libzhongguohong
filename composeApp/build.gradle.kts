@@ -39,9 +39,9 @@ kotlin {
     jvm("desktop")
 
     listOf(
-        iosX64("iosMain"),
-        iosArm64("iosMain1"),
-        iosSimulatorArm64("iosMain2")
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -82,39 +82,10 @@ kotlin {
 
         }
 
-            iosMain.dependencies {
-                implementation(libs.kotlinx.coroutines.core)
+        iosMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
 
-            }
-
-
-//        val iosMain by getting {
-//            dependencies {
-//                implementation(libs.kotlinx.coroutines.core)
-////                implementation("io.github.zeeeeej:zhongguohong-ios:0.0.2")
-//            }
-//        }
-
-
-//        val iosArm64Main by getting {
-//            dependencies {
-//                implementation(libs.kotlinx.coroutines.core)
-//                implementation("io.github.zeeeeej:zhongguohong-iosarm64:0.0.2")
-//            }
-//        }
-//
-//        val iosSimulatorArm64Main by getting{
-//            dependsOn(iosMain.get())
-//            dependencies {
-//                implementation("io.github.zeeeeej:zhongguohong-iossimulatorarm64:0.0.2")
-//            }
-//        }
-
-
-//        wasmJsMain.dependencies {
-//
-//            implementation(libs.kotlinx.coroutines.core)
-//        }
+        }
     }
 }
 
