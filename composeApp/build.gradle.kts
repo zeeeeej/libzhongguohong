@@ -16,12 +16,13 @@ kotlin {
     wasmJs {
         moduleName = "composeApp"
         browser {
+1.            val projectDirPath = project.projectDir.path
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
                         // Serve sources to debug inside browser
-                        add(project.projectDir.path)
+                        add(projectDirPath)
                     }
                 }
             }
@@ -61,16 +62,16 @@ kotlin {
 
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
+//            implementation(compose.runtime)
+//            implementation(compose.foundation)
             implementation(compose.material)
-            implementation(compose.ui)
+//            implementation(compose.ui)
             implementation(compose.components.resources) // SEE https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
 //            implementation("io.github.zeeeeej:zhongguohong:0.0.3")
             implementation(project(":zhongguohong"))
-            implementation(project(":zhongguohong-compose"))
+            implementation(projects.zhongguohongCompose)
 
 
         }

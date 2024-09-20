@@ -56,10 +56,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //put your multiplatform dependencies here
-                implementation(compose.runtime)
-                implementation(compose.foundation)
+//                implementation(compose.runtime)
+//                implementation(compose.foundation)
                 implementation(compose.material)
-                implementation(compose.ui)
+//                implementation(compose.ui)
                 implementation(project(":zhongguohong"))
             }
         }

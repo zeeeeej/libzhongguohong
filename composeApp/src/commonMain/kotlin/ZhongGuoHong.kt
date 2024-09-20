@@ -278,7 +278,7 @@ val RGB.color: Color
     get() = when (this) {
         RGB.R -> Color.Red
         RGB.G -> Color.Green
-        RGB.B -> Color.Black
+        RGB.B -> Color.Blue
     }
 
 enum class CMYK {
